@@ -456,6 +456,7 @@ target_link_libraries(solarus
   "${VORBISFILE_LIBRARY}"
   "${OGG_LIBRARY}"
   "${MODPLUG_LIBRARY}"
+  "${RAKNET_LIBRARY}"
 )
 
 set_target_properties(solarus PROPERTIES

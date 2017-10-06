@@ -19,6 +19,10 @@
 #include "solarus/lowlevel/Debug.h"
 #include "solarus/Arguments.h"
 #include "solarus/MainLoop.h"
+
+#include "RakPeerInterface.h"
+#include "MessageIdentifiers.h"
+
 #include <iostream>
 #include <string>
 
@@ -102,6 +106,8 @@ void print_help(const Arguments& args) {
 int main(int argc, char** argv) {
 
   using namespace Solarus;
+  
+  RakNet::RakPeerInterface *peer = RakNet::RakPeerInterface::GetInstance();
 
   Debug::set_abort_on_die(true);  // Better for debugging (get a callstack).
 

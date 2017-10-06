@@ -2,6 +2,7 @@
 include_directories(
   "${CMAKE_BINARY_DIR}/include"  # For config.h.
   "${CMAKE_SOURCE_DIR}/include"
+  "${CMAKE_SOURCE_DIR}/include/RakNet"
   "${CMAKE_SOURCE_DIR}/include/solarus/third_party"
   "${CMAKE_SOURCE_DIR}/include/solarus/third_party/snes_spc"
 )

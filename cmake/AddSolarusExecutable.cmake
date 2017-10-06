@@ -27,5 +27,6 @@ target_link_libraries(solarus-run
   "${VORBISFILE_LIBRARY}"
   "${OGG_LIBRARY}"
   "${MODPLUG_LIBRARY}"
+  "${RAKNET_LIBRARY}"
 )
 

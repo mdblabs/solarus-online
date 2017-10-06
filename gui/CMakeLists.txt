@@ -8,6 +8,7 @@ set(CMAKE_AUTOMOC ON)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5LinguistTools REQUIRED)
+find_package(RakNet REQUIRED)
 
 include_directories(
   "${CMAKE_CURRENT_SOURCE_DIR}/include"
@@ -91,6 +92,7 @@ target_link_libraries(solarus_gui_lib
   "${VORBISFILE_LIBRARY}"
   "${OGG_LIBRARY}"
   "${MODPLUG_LIBRARY}"
+  "${RAKNET_LIBRARY}"
 )
 
 set_target_properties(solarus_gui_lib PROPERTIES
@@ -127,6 +129,7 @@ target_link_libraries(solarus_gui_exe
   "${VORBISFILE_LIBRARY}"
   "${OGG_LIBRARY}"
   "${MODPLUG_LIBRARY}"
+  "${RAKNET_LIBRARY}"
 )
 
 # Name the GUI executable "solarus".
