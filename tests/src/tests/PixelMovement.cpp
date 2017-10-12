@@ -101,7 +101,7 @@ void restart_test(TestEnvironment& env) {
  */
 void list_test(TestEnvironment& env) {
 
-  std::list<Point> trajectory;
+  std::list<Solarus::Point> trajectory;
   trajectory.push_back({ 3, 2 });
   trajectory.push_back({ -4, -5 });
 

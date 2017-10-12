@@ -19,6 +19,7 @@
 
 #include "solarus/Common.h"
 #include "solarus/EnumInfo.h"
+#include "solarus/Arguments.h"
 #include <map>
 #include <memory>
 #include <set>
@@ -202,7 +203,7 @@ class InputEvent {
       MOUSE_BUTTON_X2              = SDL_BUTTON_X2,
     };
 
-    static void initialize();
+    static void initialize(const Arguments& args);
     static void quit();
     static bool is_initialized();
 

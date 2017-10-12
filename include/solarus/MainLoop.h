@@ -17,9 +17,16 @@
 #ifndef SOLARUS_MAIN_LOOP_H
 #define SOLARUS_MAIN_LOOP_H
 
+//Max. number of clients
+#define MAX_CLIENTS 10
+
 #include "solarus/Common.h"
 #include "solarus/lowlevel/SurfacePtr.h"
 #include "solarus/ResourceProvider.h"
+
+#include "RakNet/RakPeerInterface.h"
+#include "RakNet/MessageIdentifiers.h"
+
 #include <atomic>
 #include <memory>
 #include <mutex>
@@ -52,10 +59,15 @@ class SOLARUS_API MainLoop {
     bool is_exiting();
     void set_resetting();
     bool is_resetting();
+	void set_server();
+	bool is_server();
+	
     Game* get_game();
     void set_game(Game* game);
     ResourceProvider& get_resource_provider();
     int push_lua_command(const std::string& command);
+	
+	
 
     LuaContext& get_lua_context();
 
@@ -82,6 +94,8 @@ class SOLARUS_API MainLoop {
                                    * Useful to debug issues that only happen on slow systems. */
     bool turbo;                   /**< Whether to run the simulation as fast as possible
                                    * rather than following real time. */
+	
+	bool server;
 
     std::thread stdin_thread;     /**< Separate thread that reads Lua commands on stdin. */
     std::vector<std::string>
@@ -90,6 +104,11 @@ class SOLARUS_API MainLoop {
         lua_commands_mutex;       /**< Lock for the list of scheduled Lua commands. */
     int num_lua_commands_pushed;  /**< Counter of Lua commands requested. */
     int num_lua_commands_done;    /**< Counter of Lua commands executed. */
+	
+	RakNet::RakPeerInterface *peer;
+	RakNet::Packet *packet;
+	RakNet::SocketDescriptor *sd;
+	
 
 };
 

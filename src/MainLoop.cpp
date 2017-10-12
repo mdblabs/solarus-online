@@ -124,8 +124,9 @@ MainLoop::MainLoop(const Arguments& args):
   lua_commands(),
   lua_commands_mutex(),
   num_lua_commands_pushed(0),
-  num_lua_commands_done(0) {
-
+  num_lua_commands_done(0), 
+  server(false){
+  Logger::info("Debugging!");
   Logger::info(std::string("Solarus ") + SOLARUS_VERSION);
 
   // Main loop settings.
@@ -136,15 +137,19 @@ MainLoop::MainLoop(const Arguments& args):
   }
   const std::string& turbo_arg = args.get_argument_value("-turbo");
   turbo = (turbo_arg == "yes");
-
+  
+  server = args.has_argument("-server");
+  
   // Try to open the quest.
   const std::string& quest_path = get_quest_path(args);
   Logger::info("Opening quest '" + quest_path + "'");
   if (!QuestFiles::open_quest(args.get_program_name(), quest_path)) {
+	Logger::info("No quest was found in the directory '" + quest_path + "'");
+	  
     Debug::error("No quest was found in the directory '" + quest_path + "'");
     return;
   }
-
+  Logger::info("Ok. Found route to quest");
   // Initialize engine features (audio, video...).
   System::initialize(args);
 
@@ -154,19 +159,53 @@ MainLoop::MainLoop(const Arguments& args):
   else {
     Logger::info("Turbo mode: no");
   }
-
+  if (server) {
+    Logger::info("I'm the SERVER");
+  }
+  else {
+    Logger::info("I'm a CLIENT");
+  }
+  //Network Server/Client setup.
+  peer = RakNet::RakPeerInterface::GetInstance();
+  //TODO: Port / Address by parameter
+  
+  //SERVER
+  if(server)
+  {
+	  Logger::info("Starting the SERVER");
+	  sd = new RakNet::SocketDescriptor(15004,0);
+	  peer->Startup(MAX_CLIENTS, sd, 1);
+	  peer->SetMaximumIncomingConnections(MAX_CLIENTS);
+  }
+  //CLIENT
+  else
+  {
+	  Logger::info("Starting the CLIENT");
+	  peer->Startup(1,sd,1);
+	  //TODO: Port / Address by parameter
+	  peer->Connect("127.0.0.1", 15004, 0,0);
+  }
+  
+  Logger::info("System Initialization OK.");
   // Read the quest resource list from data.
   CurrentQuest::initialize();
+  Logger::info("Quest Initialization OK.");
+    
   TilePattern::initialize();
+  Logger::info("TilePattern Initialization OK.");
 
   // Read the quest general properties.
   load_quest_properties();
+  Logger::info("Quest Properties Loaded OK.");
 
   // Create the quest surface.
-  root_surface = Surface::create(
-      Video::get_quest_size()
-  );
-  root_surface->set_software_destination(false);  // Accelerate this surface.
+  if(!is_server())
+  {
+  	root_surface = Surface::create(
+      	Video::get_quest_size()
+  		  );
+  	root_surface->set_software_destination(false);  // Accelerate this surface.
+  }
 
   // Run the Lua world.
   // Do this after the creation of the window, but before showing the window,
@@ -186,7 +225,10 @@ MainLoop::MainLoop(const Arguments& args):
   }
 
   // Finally show the window.
-  Video::show_window();
+  if(!is_server())
+  {
+    Video::show_window();
+  }
 }
 
 /**
@@ -269,6 +311,19 @@ void MainLoop::set_resetting() {
     game->stop();
   }
   set_game(nullptr);
+}
+/**
+ * \brief Marks the current game as server.
+ */
+void MainLoop::set_server(){
+  this->server=true;
+}
+
+/**
+ * \brief Returns whether the program is server or not.
+ */
+bool MainLoop::is_server(){
+  return this->server;
 }
 
 /**
@@ -371,7 +426,7 @@ void MainLoop::run() {
     }
 
     // 3. Redraw the screen.
-    if (num_updates > 0) {
+    if ((num_updates > 0) && (!is_server())) {
       draw();
     }
 
@@ -386,7 +441,9 @@ void MainLoop::run() {
       System::sleep(System::timestep - last_frame_duration);
     }
   }
-
+  Logger::info("RakNet Peer Destroyed");
+  RakNet::RakPeerInterface::DestroyInstance(peer);
+  	
   Logger::info("Simulation finished");
 }
 
@@ -396,7 +453,8 @@ void MainLoop::run() {
  * You can use this function if you want to simulate step by step.
  * Otherwise, use run() to execute the standard main loop.
  */
-void MainLoop::step() {
+void MainLoop::step() 
+{ 
   update();
 }
 

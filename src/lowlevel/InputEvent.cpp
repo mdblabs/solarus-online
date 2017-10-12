@@ -186,8 +186,15 @@ const EnumInfo<InputEvent::MouseButton>::names_type EnumInfoTraits<InputEvent::M
 /**
  * \brief Initializes the input event manager.
  */
-void InputEvent::initialize() {
+void InputEvent::initialize(const Arguments& args) {
 
+  //Disable inputs if SERVER
+  const bool disable = args.has_argument("-server");
+  if (disable) {
+    Logger::info("Input Event disabled.");
+    initialized = false;
+	return;
+  }
   initialized = true;
 
   // Initialize text events.

@@ -181,8 +181,9 @@ Sound::~Sound() {
 void Sound::initialize(const Arguments& args) {
 
   // Check the -no-audio option.
-  const bool disable = args.has_argument("-no-audio");
+  const bool disable = ( args.has_argument("-no-audio") || args.has_argument("-server")) ;
   if (disable) {
+	Logger::info("Audio disabled.");
     return;
   }
 

@@ -28,7 +28,7 @@ namespace {
  */
 void one_step_test(TestEnvironment& env, Entity& entity) {
 
-  Point old_xy = entity.get_xy();
+  Solarus::Point old_xy = entity.get_xy();
 
   std::shared_ptr<PathMovement> movement = std::make_shared<PathMovement>(
       "0", 100, false, false, false // 8 pixels to the right.
@@ -39,7 +39,7 @@ void one_step_test(TestEnvironment& env, Entity& entity) {
     env.step();
   }
 
-  Debug::check_assertion(entity.get_xy() - old_xy == Point(8, 0),
+  Debug::check_assertion(entity.get_xy() - old_xy ==  Solarus::Point(8, 0),
       "Unexpected coordinates for 'one_step_test #1'");
   Debug::check_assertion(movement->get_total_distance_covered() == 8,
       "Unexpected distance covered for 'one_step_test #1'");
@@ -57,7 +57,7 @@ void one_step_test(TestEnvironment& env, Entity& entity) {
   while (!movement->is_finished()) {
     env.step();
   }
-  Debug::check_assertion(entity.get_xy() - old_xy == Point(-8, -8),
+  Debug::check_assertion(entity.get_xy() - old_xy ==  Solarus::Point(-8, -8),
       "Unexpected coordinates for 'one_step_test #3'");
   Debug::check_assertion(movement->get_total_distance_covered() == 24,
       "Unexpected distance covered for 'one_step_test #3'");
@@ -101,7 +101,7 @@ void direction_test(TestEnvironment& env, Entity& entity) {
  */
 void multi_step_test(TestEnvironment& env, Entity& entity) {
 
-  Point old_xy = entity.get_xy();
+  Solarus::Point old_xy = entity.get_xy();
 
   std::shared_ptr<PathMovement> movement = std::make_shared<PathMovement>(
       "66", 100, false, false, false  // 16 pixels downwards.
@@ -112,7 +112,7 @@ void multi_step_test(TestEnvironment& env, Entity& entity) {
     env.step();
   }
 
-  Debug::check_assertion(entity.get_xy() - old_xy == Point(0, 16),
+  Debug::check_assertion(entity.get_xy() - old_xy ==  Solarus::Point(0, 16),
       "Unexpected coordinates for 'multi_step_test #1'");
   Debug::check_assertion(movement->get_total_distance_covered() == 16,
       "Unexpected distance covered for 'multi_step_test #1'");
@@ -123,7 +123,7 @@ void multi_step_test(TestEnvironment& env, Entity& entity) {
     env.step();
   }
 
-  Debug::check_assertion(entity.get_xy() - old_xy == Point(8, 0),
+  Debug::check_assertion(entity.get_xy() - old_xy ==  Solarus::Point(8, 0),
       "Unexpected coordinates for 'multi_step_test #2'");
   Debug::check_assertion(movement->get_total_distance_covered() == 40,
       "Unexpected distance covered for 'multi_step_test #2'");
@@ -148,7 +148,7 @@ void snap_test(TestEnvironment& env, Entity& entity) {
   while (!movement->is_finished()) {
     env.step();
   }
-  Debug::check_assertion(entity.get_top_left_xy() == Point(147, 124),
+  Debug::check_assertion(entity.get_top_left_xy() ==  Solarus::Point(147, 124),
       "Unexpected coordinates for 'snap_test #1'");
   Debug::check_assertion(movement->get_total_distance_covered() == 16,
       "Unexpected distance covered for 'snap_test #1'");
@@ -162,7 +162,7 @@ void snap_test(TestEnvironment& env, Entity& entity) {
   while (!movement->is_finished()) {
     env.step();
   }
-  Debug::check_assertion(entity.get_top_left_xy() == Point(152, 112),
+  Debug::check_assertion(entity.get_top_left_xy() ==  Solarus::Point(152, 112),
       "Unexpected coordinates for 'snap_test #2'");
   Debug::check_assertion(movement->get_total_distance_covered() == 16,
       "Unexpected distance covered for 'snap_test #2'");
