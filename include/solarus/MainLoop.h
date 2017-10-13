@@ -107,8 +107,6 @@ class SOLARUS_API MainLoop {
 	
 	RakNet::RakPeerInterface *peer;
 	RakNet::Packet *packet;
-	RakNet::SocketDescriptor *sd;
-	
 
 };
 

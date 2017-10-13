@@ -42,6 +42,9 @@ namespace Solarus {
 
 namespace {
 
+	///TODO: Esto no debería de ser global...
+	RakNet::SocketDescriptor sd;
+
 /**
  * \brief Checks that the quest is compatible with the current version of
  * Solarus.
@@ -125,7 +128,8 @@ MainLoop::MainLoop(const Arguments& args):
   lua_commands_mutex(),
   num_lua_commands_pushed(0),
   num_lua_commands_done(0), 
-  server(false){
+  server(false)
+  {
   Logger::info("Debugging!");
   Logger::info(std::string("Solarus ") + SOLARUS_VERSION);
 
@@ -173,17 +177,34 @@ MainLoop::MainLoop(const Arguments& args):
   if(server)
   {
 	  Logger::info("Starting the SERVER");
-	  sd = new RakNet::SocketDescriptor(15004,0);
-	  peer->Startup(MAX_CLIENTS, sd, 1);
+	  RakNet::SocketDescriptor sd(5004,0);
+	  bool start = peer->Startup(MAX_CLIENTS, &sd, 1);
+	  if(!start)
+	  {
+		  Logger::info("Error Starting");
+	  }
+	  else
+	  {
+	  	 Logger::info("Server Starting OK");
+	  }
 	  peer->SetMaximumIncomingConnections(MAX_CLIENTS);
   }
   //CLIENT
   else
   {
 	  Logger::info("Starting the CLIENT");
-	  peer->Startup(1,sd,1);
+	  bool start = peer->Startup(1,&sd,1);
+	  if(!start)
+	  {
+		  Logger::info("Error Starting");
+	  }
+	  else
+	  {
+	  	 Logger::info("Client Starting OK");
+	  }
 	  //TODO: Port / Address by parameter
-	  peer->Connect("127.0.0.1", 15004, 0,0);
+	  peer->Connect("127.0.0.1", 5004, 0,0);
+	  
   }
   
   Logger::info("System Initialization OK.");
@@ -199,6 +220,7 @@ MainLoop::MainLoop(const Arguments& args):
   Logger::info("Quest Properties Loaded OK.");
 
   // Create the quest surface.
+  //TODO: Create argument -no-video.
   if(!is_server())
   {
   	root_surface = Surface::create(
@@ -253,6 +275,9 @@ MainLoop::~MainLoop() {
   QuestFiles::close_quest();
   System::quit();
   quit_lua_console();
+  //TODO: Network quit
+  RakNet::RakPeerInterface::DestroyInstance(peer);
+  
 }
 
 /**
@@ -405,8 +430,66 @@ void MainLoop::run() {
 
     // 1. Detect and handle input events.
     check_input();
+	
+	// 2. Network management
+	if(peer==NULL)
+	{
+		Logger::info("Error net");
+	}
+	else
+	{
+		//Logger::info("Peer OK");
+	}
+		
+    for (packet=peer->Receive(); packet; peer->DeallocatePacket(packet), packet=peer->Receive())
+    {
+		Logger::info("Package received");
+        switch (packet->data[0])
+        {
+            case ID_REMOTE_DISCONNECTION_NOTIFICATION:
+                Logger::info("Another client has disconnected.");
+                break;
+            case ID_REMOTE_CONNECTION_LOST:
+                Logger::info("Another client has lost the connection.");
+                break;
+            case ID_REMOTE_NEW_INCOMING_CONNECTION:
+                Logger::info("Another client has connected.");
+                break;
+            case ID_CONNECTION_REQUEST_ACCEPTED:
+                Logger::info("Our connection request has been accepted.");
+                break;
+            case ID_NEW_INCOMING_CONNECTION:
+                Logger::info("A connection is incoming.");
+                break;
+            case ID_NO_FREE_INCOMING_CONNECTIONS:
+                Logger::info("The server is full.");
+                break;
+            case ID_DISCONNECTION_NOTIFICATION:
+                if (server){
+                    Logger::info("A client has disconnected.");
+                } else {
+                    Logger::info("We have been disconnected.");
+                }
+                break;
+            case ID_CONNECTION_LOST:
+                if (server){
+                    Logger::info("A client lost the connection.");
+                } else {
+                    Logger::info("Connection lost.\n");
+                }
+                break;
+            default:
+                Logger::info("Message with identifier %i has arrived.");
+                break;
+        }
+    }
+	
+	
+	
+	
+	
 
-    // 2. Update the world once, or several times (skipping some draws)
+    // 3. Update the world once, or several times (skipping some draws)
     // to catch up if the system is slow.
     int num_updates = 0;
     if (turbo) {
@@ -425,12 +508,12 @@ void MainLoop::run() {
       ++num_updates;
     }
 
-    // 3. Redraw the screen.
+    // 4. Redraw the screen.
     if ((num_updates > 0) && (!is_server())) {
       draw();
     }
-
-    // 4. Sleep if we have time, to save CPU and GPU cycles.
+	
+    // 5. Sleep if we have time, to save CPU and GPU cycles.
     if (debug_lag > 0 && !turbo) {
       // Extra sleep time for debugging, useful to simulate slower systems.
       System::sleep(debug_lag);
@@ -442,7 +525,6 @@ void MainLoop::run() {
     }
   }
   Logger::info("RakNet Peer Destroyed");
-  RakNet::RakPeerInterface::DestroyInstance(peer);
   	
   Logger::info("Simulation finished");
 }
