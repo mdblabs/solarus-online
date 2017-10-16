@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/solarus-games/solarus.svg?branch=dev)](https://travis-ci.org/solarus-games/solarus)
 [![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org/copyleft/gpl.html)
-
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/mdblabs/solarus-online.svg?columns=all)](http://waffle.io/mdblabs/solarus-online)
 ====================================
 
 ### About Solarus
