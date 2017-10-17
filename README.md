@@ -11,7 +11,7 @@ Solarus Online is an unnoficcial Solarus Engine fork where online capabilities a
 
 ### THIS IS A WORK IN PROGRESS
 
-This is just a prove of concept. Main idea is to used RakNet opensource multiplayer library to add network features to Solarus.
+This is just a proof of concept. Main idea is to used RakNet opensource multiplayer library to add network features to Solarus.
 
 For the original engine, please, visit:
 
