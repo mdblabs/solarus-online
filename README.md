@@ -7,7 +7,7 @@
 
 - [ ] TODO - Review README
 
-Solarus Online is an unnoficcial Solarus Engine fork where online capabilities are added to the original engine.
+Solarus Online is an unoficcial Solarus Engine fork where online capabilities are added to the original engine.
 
 ### THIS IS A WORK IN PROGRESS
 
