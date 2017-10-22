@@ -26,5 +26,5 @@ addons:
     - qttools5-dev
     - qttools5-dev-tools
 
-script: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug -DRAKNET_LIBRARY=../libraries/linux/libRakNetLibStatic.a -DCXX_FLAGS=-Werror,-Wunused-parameteri .. && make && ctest -V
+script: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug -DRAKNET_LIBRARY=../libraries/linux/libRakNetLibStatic.a -DCMAKE_CXX_FLAGS=-Werror,-Wunused-parameter .. && make && ctest -V
 
