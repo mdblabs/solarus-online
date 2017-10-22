@@ -96,8 +96,6 @@ class SOLARUS_API MainLoop {
                                    * Useful to debug issues that only happen on slow systems. */
     bool turbo;                   /**< Whether to run the simulation as fast as possible
                                    * rather than following real time. */
-	
-	bool server;
 
     std::thread stdin_thread;     /**< Separate thread that reads Lua commands on stdin. */
     std::vector<std::string>
@@ -106,6 +104,8 @@ class SOLARUS_API MainLoop {
         lua_commands_mutex;       /**< Lock for the list of scheduled Lua commands. */
     int num_lua_commands_pushed;  /**< Counter of Lua commands requested. */
     int num_lua_commands_done;    /**< Counter of Lua commands executed. */
+	
+	bool server;
 	
 	RakNet::RakPeerInterface *peer;
 	RakNet::Packet *packet;
