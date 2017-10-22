@@ -26,6 +26,8 @@
 
 #include "RakNet/RakPeerInterface.h"
 #include "RakNet/MessageIdentifiers.h"
+#include "BitStream.h"
+#include "RakNetTypes.h"  // MessageID
 
 #include <atomic>
 #include <memory>
@@ -108,6 +110,11 @@ class SOLARUS_API MainLoop {
 	RakNet::RakPeerInterface *peer;
 	RakNet::Packet *packet;
 
+};
+
+enum GameMessages
+{
+	ID_GAME_MESSAGE_1=ID_USER_PACKET_ENUM+1
 };
 
 }

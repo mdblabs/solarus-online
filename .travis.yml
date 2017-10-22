@@ -33,5 +33,5 @@ addons:
     - qttools5-dev
     - qttools5-dev-tools
 
-script: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug .. && make && ctest -V
+script: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug .. && cmake -DRAKNET_LIBRARY=../libraries/linux/libRakNetLibStatic.a && make && ctest -V
 

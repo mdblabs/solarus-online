@@ -270,13 +270,16 @@ MainLoop::~MainLoop() {
   if (lua_context != nullptr) {
     lua_context->exit();
   }
+  //TODO: Network quit
+  RakNet::RakPeerInterface::DestroyInstance(peer);
+  free(packet);
+  
   TilePattern::quit();
   CurrentQuest::quit();
   QuestFiles::close_quest();
   System::quit();
   quit_lua_console();
-  //TODO: Network quit
-  RakNet::RakPeerInterface::DestroyInstance(peer);
+  
   
 }
 
@@ -456,8 +459,16 @@ void MainLoop::run() {
                 Logger::info("Another client has connected.");
                 break;
             case ID_CONNECTION_REQUEST_ACCEPTED:
+				{
                 Logger::info("Our connection request has been accepted.");
-                break;
+				// Use a BitStream to write a custom user message
+				// Bitstreams are easier to use than sending casted structures, and handle endian swapping automatically
+				RakNet::BitStream bsOut;
+				bsOut.Write((RakNet::MessageID)ID_GAME_MESSAGE_1);
+				bsOut.Write("Hello world");
+				peer->Send(&bsOut,HIGH_PRIORITY,RELIABLE_ORDERED,0,packet->systemAddress,false);
+				}
+				break;
             case ID_NEW_INCOMING_CONNECTION:
                 Logger::info("A connection is incoming.");
                 break;
@@ -478,6 +489,16 @@ void MainLoop::run() {
                     Logger::info("Connection lost.\n");
                 }
                 break;
+			case ID_GAME_MESSAGE_1:
+				{
+					RakNet::RakString rs;
+					RakNet::BitStream bsIn(packet->data,packet->length,false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(rs);
+					Logger::info(rs.C_String());
+					//printf("%s\n", rs.C_String());
+				}
+				break;
             default:
                 Logger::info("Message with identifier %i has arrived.");
                 break;
@@ -509,6 +530,7 @@ void MainLoop::run() {
     }
 
     // 4. Redraw the screen.
+    // TODO:Video on/off args
     if ((num_updates > 0) && (!is_server())) {
       draw();
     }
