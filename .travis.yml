@@ -14,21 +14,20 @@ compiler:
 addons:
   apt:
     packages:
-    	- gcc-6
-    	- g++-6
-    	- libc6-dev-i386
-    	- libc6-i386
-    	- libsdl2-dev
-    	- libsdl2-image-dev
-    	- libsdl2-ttf-dev
-    	- libluajit-5.1-dev
-    	- libphysfs-dev
-    	- libopenal-dev
-    	- libmodplug-dev
-    	- libvorbis-dev
-    	- qtbase5-dev
-    	- qttools5-dev
-    	- qttools5-dev-tools
-		
+    - gcc-6
+    - g++-6
+    - libc6-dev-i386
+    - libc6-i386
+    - libsdl2-dev
+    - libsdl2-image-dev
+    - libsdl2-ttf-dev
+    - libluajit-5.1-dev
+    - libphysfs-dev
+    - libopenal-dev
+    - libmodplug-dev
+    - libvorbis-dev
+    - qtbase5-dev
+    - qttools5-dev
+    - qttools5-dev-tools		
 script: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug -DRAKNET_LIBRARY=/home/travis/build/mdblabs/solarus-online/libraries/linux/libRakNetLibStatic.a -DCMAKE_CXX_FLAGS=-Wno-error -Wno-unused-parameter .. && make && ctest -V
 
