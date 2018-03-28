@@ -28,9 +28,20 @@ if("${DL_LIBRARY}" MATCHES DL_LIBRARY-NOTFOUND)
 endif()
 
 # Raknet
-find_library(RAKNET_LIBRARY
-	NAMES libRakNetStaticLib.a
-	HINTS "${CMAKE_SOURCE_DIR}/libraries/linux/"
-)
+if(UNIX AND NOT APPLE)
+	SET(LINUX TRUE)
+endif()
+
+if(LINUX)
+	find_library(RAKNET_LIBRARY
+		NAMES libRakNetStaticLib.a
+		HINTS "${CMAKE_SOURCE_DIR}/libraries/linux/"
+	)
+else()
+	find_library(RAKNET_LIBRARY
+		NAMES libRakNetStaticLib.a
+		HINTS "${CMAKE_SOURCE_DIR}/libraries/macos/"
+		)
+endif()
 
 
