@@ -27,3 +27,10 @@ if("${DL_LIBRARY}" MATCHES DL_LIBRARY-NOTFOUND)
   set(DL_LIBRARY "")
 endif()
 
+# Raknet
+find_library(RAKNET_LIBRARY
+	NAMES libRakNetStaticLib
+	HINTS "../libraries/linux/"
+)
+
+

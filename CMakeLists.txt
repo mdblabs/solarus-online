@@ -13,4 +13,3 @@ include(cmake/AddInstallTargets.cmake)
 include(cmake/AddUnitTests.cmake)
 include(cmake/AddGui.cmake)
 
-add_library(RakNetLibStatic STATIC IMPORTED)
