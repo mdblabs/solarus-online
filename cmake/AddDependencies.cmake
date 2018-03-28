@@ -33,12 +33,12 @@ if(UNIX AND NOT APPLE)
 endif()
 
 if(LINUX)
-	find_library(${RAKNET_LIBRARY}
+	find_library(RAKNET_LIBRARY
 		NAMES libRakNetStaticLib.a
 		HINTS "${CMAKE_SOURCE_DIR}/libraries/linux/"
 	)
 else()
-	find_library(${RAKNET_LIBRARY}
+	find_library(RAKNET_LIBRARY
 		NAMES libRakNetStaticLib.a
 		HINTS "${CMAKE_SOURCE_DIR}/libraries/macos/"
 		)
