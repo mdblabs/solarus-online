@@ -27,5 +27,5 @@ addons:
     - qtbase5-dev
     - qttools5-dev
     - qttools5-dev-tools		
-script: mkdir build && cd build && cmake -DRAKNET_LIBRARY=../libraries/linux/libRakNetLibStatic.a  -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-Wno-error -Wno-unused-parameter .. && make -lRakNetLibStatic && ctest -V
+script: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-Wno-error -Wno-unused-parameter .. && make && ctest -V
 

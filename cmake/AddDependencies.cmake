@@ -29,8 +29,8 @@ endif()
 
 # Raknet
 find_library(RAKNET_LIBRARY
-	NAMES libRakNetStaticLib
-	HINTS "../libraries/linux/"
+	NAMES libRakNetStaticLib.a
+	HINTS "${CMAKE_SOURCE_DIR}/libraries/linux/"
 )
 
 
