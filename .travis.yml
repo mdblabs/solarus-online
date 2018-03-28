@@ -27,5 +27,7 @@ addons:
     - qtbase5-dev
     - qttools5-dev
     - qttools5-dev-tools		
+before_script:
+    - echo $PWD 
 script: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug -DRAKNET_LIBRARY=../libraries/linux/libRakNetLibStatic.a -DCMAKE_CXX_FLAGS=-Wno-error -Wno-unused-parameter .. && make && ctest -V
 
