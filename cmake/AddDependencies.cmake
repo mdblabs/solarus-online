@@ -16,6 +16,11 @@ find_package(Ogg REQUIRED)
 find_package(ModPlug REQUIRED)
 find_package(PhysFS REQUIRED)
 find_package(RakNet REQUIRED)
+
+MESSAGE("################################")
+MESSAGE("RAKNET--->" ${RAKNET_LIBRARY})
+MESSAGE("################################")
+
 if(SOLARUS_USE_LUAJIT)
   find_package(LuaJit REQUIRED)
 else()
@@ -27,30 +32,3 @@ find_library(DL_LIBRARY dl)
 if("${DL_LIBRARY}" MATCHES DL_LIBRARY-NOTFOUND)
   set(DL_LIBRARY "")
 endif()
-
-# Raknet
-if(UNIX AND NOT APPLE)
-	SET(LINUX TRUE)
-endif()
-
-if(LINUX)
-	find_library(RAKNET
-		NAMES RakNetStaticLib
-		HINTS "${CMAKE_SOURCE_DIR}/libraries/linux/"
-	)
-else()
-	find_library(RAKNET
-		NAMES RakNetStaticLib
-		HINTS "${CMAKE_SOURCE_DIR}/libraries/macos/"
-		)
-endif()
-
-if(RAKNET_FOUND)
-	set(RAKNET_LIBRARY ${RAKNET})
-else(RAKNET_FOUND)
-	set(RAKNET_LIBRARY)
-endif(RAKNET_FOUND)
-
-
-
-
