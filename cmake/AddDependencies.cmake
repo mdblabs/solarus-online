@@ -33,19 +33,19 @@ if(UNIX AND NOT APPLE)
 endif()
 
 if(LINUX)
-	find_library(RAKNET_LIBRARY
+	find_library(RAKNET
 		NAMES RakNetStaticLib
 		HINTS "${CMAKE_SOURCE_DIR}/libraries/linux/"
 	)
 else()
-	find_library(RAKNET_LIBRARY
+	find_library(RAKNET
 		NAMES RakNetStaticLib
 		HINTS "${CMAKE_SOURCE_DIR}/libraries/macos/"
 		)
 endif()
 
 if(RAKNET_FOUND)
-	set(RAKNET_LIBRARY ${RAKNET_LIBRARY})
+	set(RAKNET_LIBRARY ${RAKNET})
 else(RAKNET_FOUND)
 	set(RAKNET_LIBRARY)
 endif(RAKNET_FOUND)
