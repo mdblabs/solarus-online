@@ -15,9 +15,8 @@ find_package(VorbisFile REQUIRED)
 find_package(Ogg REQUIRED)
 find_package(ModPlug REQUIRED)
 find_package(PhysFS REQUIRED)
-find_package(RakNet REQUIRED)
-
 MESSAGE("################################")
+find_package(RakNet REQUIRED)
 MESSAGE("RAKNET--->" ${RAKNET_LIBRARY})
 MESSAGE("################################")
 

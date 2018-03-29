@@ -1,4 +1,6 @@
 # Raknet
+MESSAGE("Buscamos Rakneti...")
+
 if(UNIX AND NOT APPLE)
 	SET(LINUX TRUE)
 endif()
