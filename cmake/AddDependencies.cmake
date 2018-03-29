@@ -34,13 +34,22 @@ endif()
 
 if(LINUX)
 	find_library(RAKNET_LIBRARY
-		NAMES libRakNetStaticLib.a
+		NAMES RakNetStaticLib
 		HINTS "${CMAKE_SOURCE_DIR}/libraries/linux/"
 	)
 else()
 	find_library(RAKNET_LIBRARY
-		NAMES libRakNetStaticLib.a
+		NAMES RakNetStaticLib
 		HINTS "${CMAKE_SOURCE_DIR}/libraries/macos/"
 		)
 endif()
+
+if(RAKNET_FOUND)
+	set(RAKNET_LIBRARY ${RAKNET_LIBRARY})
+else(RAKNET_FOUND)
+	set(RAKNET_LIBRARY)
+endif(RAKNET_FOUND)
+
+
+
 
