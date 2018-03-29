@@ -6,6 +6,7 @@ if(UNIX AND NOT APPLE)
 endif()
 
 MESSAGE("LINUX--->" ${LINUX})
+MESSAGE("CMAKE SURCE--->" ${CMAKE_SOURCE_DIR})
 
 if(LINUX)
 	find_library(RAKNET
