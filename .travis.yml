@@ -8,8 +8,8 @@ notifications:
 language: cpp
 
 compiler:
-  - g++
-  - clang++
+  - gcc
+  - clang
 
 addons:
   apt:
