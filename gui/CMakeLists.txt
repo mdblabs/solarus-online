@@ -115,6 +115,8 @@ add_executable(solarus_gui_exe
   ${solarus_gui_exe_SOURCES}
 )
 
+message("RakNet befor targeting-->" ${RAKNET_LIBRARY})
+
 target_link_libraries(solarus_gui_exe
   solarus
   solarus_gui_lib
