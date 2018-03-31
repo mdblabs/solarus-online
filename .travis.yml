@@ -14,9 +14,8 @@ compiler:
 addons:
   apt:
     packages:
-    - g++-5
-    - libc6-dev-i386
-    - libc6-i386
+    - libc6-dev
+    - libc6
     - libsdl2-dev
     - libsdl2-image-dev
     - libsdl2-ttf-dev
